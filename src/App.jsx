@@ -1,54 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { getTodos } from './action.js';
 
 const App = () => {
-  const [data , setdata] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchdata = async () => {
-      try{
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const result = await response.json();
-        setdata(result);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      }
-    };
-    fetchdata();
-  }, []);
-
-  if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-
+  const todos = useSelector((state) => state);
+  const Dispatch = useDispatch();
+    useEffect(() => {
+        Dispatch(getTodos());
+    } , [])
   return (
-    <div className="App">
-      <p>Posts</p>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Body</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.title}</td>
-              <td>{item.body}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      
-    </div>
-  );
+    <> 
+      {
+        todos.map((item) => {
+          return (
+            <div>
+              <table style={{ border: '1px solid black'  , padding: '10px' , margin: 'auto', width: '50%'}}>
+                <tr>
+                  <td style={{width: '10%'}}>{item.id}</td>
+                  <td style={{width: '10%'}}>{item.userId}</td>
+                  <td style={{width: '70%'}}>{item.title}</td>
+                  <td style={{width: '10%'}}>{item.completed}</td>
+                </tr>
+              </table>
+            </div>
+          )
+        })
+      }
+    </>
+  )
 };
 
 export default App;
