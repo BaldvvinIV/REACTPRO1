@@ -5,13 +5,21 @@ import { applyMiddleware, createStore } from 'redux'
 import { Provider } from 'react-redux'
 import { thunk } from 'redux-thunk'
 
-const initialState = []
+const initialState = {
+  todos: [],
+  loading: false
+}
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+      case 'LOADING':
+      return {
+        loading : true
+      }
       case 'GET_TODOS':
-        return action.payload
-
+      return {
+        todos : action.payload,
+      }
       default :
         return state
     }
