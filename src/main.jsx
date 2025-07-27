@@ -7,7 +7,7 @@ import { thunk } from 'redux-thunk'
 
 const initialState = {
   todos: [],
-  loading: false
+  loading: false,
 }
 
 const reducer = (state = initialState, action) => {
@@ -19,7 +19,14 @@ const reducer = (state = initialState, action) => {
       case 'GET_TODOS':
       return {
         todos : action.payload,
+        loading : false
       }
+      case 'DELETE_TODO':
+        return {
+          ...state,
+          todos: state.todos.filter(todo => todo.id !== action.payload)
+        }
+
       default :
         return state
     }

@@ -2,10 +2,14 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getTodos } from './action.js';
+import { deleteTodo } from './action.js';
 
 const App = () => {
   const todos = useSelector((state) => state.todos);
   const loading = useSelector((state) => state.loading);
+ const handleDeleteTodo = (id, dispatch) => {
+  dispatch(deleteTodo(id));
+};
   const Dispatch = useDispatch();
     useEffect(() => {
 
@@ -13,21 +17,19 @@ const App = () => {
     } , [])
   return (
     <> 
+    <h1 style={{ textAlign: 'center' , color: 'blue' , fontSize: '30px' , fontFamily : 'Arial'}}>Список дел </h1>
       {
         loading ? (
-          <p style={{ textAlign: 'center' , color: 'blue' , fontSize: '20px' , fontFamily : 'Arial'}}>Loading...</p>
+          <div className='loaderBox'>
+            <span className="loader"></span>
+          </div>
         ) : (
           todos.map((item) => {
             return (
-              <div key={item.id}>
-                <table style={{ border: '1px solid black'  , padding: '10px' , margin: 'auto', width: '50%'}}>
-                  <tr>
-                    <td style={{width: '10%'}}>{item.id}</td>
-                  <td style={{width: '10%'}}>{item.userId}</td>
-                  <td style={{width: '70%'}}>{item.title}</td>
-                  <td style={{width: '10%'}}>{item.completed}</td>
-                </tr>
-              </table>
+              <div className='Todos'>
+              <input type="checkbox" className='Checkbox' />
+              <p>{item.title}</p>
+              <input className='Button' type="button" value={'Удалить'} onClick={() => handleDeleteTodo(item.id, Dispatch)} />
             </div>
           )
         })
