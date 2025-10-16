@@ -10,6 +10,10 @@ const App = () => {
  const handleDeleteTodo = (id, dispatch) => {
   dispatch(deleteTodo(id));
 };
+
+const handlechange = (completed) => {
+  console.log(completed);
+}
   const Dispatch = useDispatch();
     useEffect(() => {
 
@@ -27,7 +31,7 @@ const App = () => {
           todos.map((item) => {
             return (
               <div className='Todos'>
-              <input type="checkbox" className='Checkbox' />
+              <input type="checkbox" className='Checkbox' checked={item.completed} onChange={() => handlechange(item.completed)} />
               <p>{item.title}</p>
               <input className='Button' type="button" value={'Удалить'} onClick={() => handleDeleteTodo(item.id, Dispatch)} />
             </div>
