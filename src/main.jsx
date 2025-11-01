@@ -26,6 +26,17 @@ const reducer = (state = initialState, action) => {
           ...state,
           todos: state.todos.filter(todo => todo.id !== action.payload)
         }
+      case 'UPDATE_TODO':
+        const updatedTodos = state.todos.map(todo => {
+          if (todo.id === action.payload.id) {
+            return action.payload;
+          }
+          return todo;
+        });
+        return {
+          ...state,
+          todos: updatedTodos
+        };
 
       default :
         return state
