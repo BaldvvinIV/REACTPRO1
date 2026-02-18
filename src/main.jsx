@@ -8,40 +8,57 @@ import { thunk } from 'redux-thunk'
 const initialState = {
   todos: [],
   loading: false,
+  users: [],
+  loadingUsers: false
 }
 
 const reducer = (state = initialState, action) => {
-    switch (action.type) {
-      case 'LOADING':
+  switch (action.type) {
+    case 'LOADING':
       return {
-        loading : true
-      }
-      case 'GET_TODOS':
-      return {
-        todos : action.payload,
-        loading : false
-      }
-      case 'DELETE_TODO':
-        return {
-          ...state,
-          todos: state.todos.filter(todo => todo.id !== action.payload)
-        }
-      case 'UPDATE_TODO':
-        const updatedTodos = state.todos.map(todo => {
-          if (todo.id === action.payload.id) {
-            return action.payload;
-          }
-          return todo;
-        });
-        return {
-          ...state,
-          todos: updatedTodos
-        };
+        ...state,
+        loading: true,
+      };
 
-      default :
-        return state
-    }
-}
+    case 'GET_TODOS':
+      return {
+        ...state,
+        todos: action.payload,
+        loading: false,
+      };
+
+    case 'LOADING_USERS':
+      return {
+        ...state,
+        loadingUsers: true,
+      };
+
+    case 'GET_USERS':
+      return {
+        ...state,
+        users: action.payload,
+        loadingUsers: false,
+      };
+
+    case 'DELETE_TODO':
+      return {
+        ...state,
+        todos: state.todos.filter((todo) => todo.id !== action.payload),
+      };
+
+    case 'UPDATE_TODO':
+      return {
+        ...state,
+        todos: state.todos.map((todo) =>
+          todo.id === action.payload.id ? action.payload : todo
+        ),
+      };
+
+    default:
+      return state;
+  }
+};
+
 
 
 

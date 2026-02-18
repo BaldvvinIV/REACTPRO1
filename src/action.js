@@ -43,3 +43,18 @@ export const updatechange = (id, completed) => {
       .catch((err) => console.error(err));
   };
 };
+
+export const loadUsers = () => {
+  return (dispatch) => {
+    dispatch({ type: 'LOADING_USERS' });
+
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: 'GET_USERS',
+          payload: data,
+        });
+      });
+  };
+};
